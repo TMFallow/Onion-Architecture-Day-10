@@ -20,11 +20,11 @@ namespace Onion_Architecture.Controllers
             this.userInfoService = userInfoService;
         }
 
+
         [HttpGet]
         public IActionResult Index()
         {
             List<UserViewModel> model = new List<UserViewModel>();
-
             userService.GetAllUser().ToList().ForEach(u =>
             {
                 UserInfo userInfo = userInfoService.GetUserInfo(u.Id);

@@ -16,6 +16,10 @@ namespace OA.Repository
 
         string errorString = string.Empty;
 
+        private DbSet<User> users;
+
+        private User user1 = new User();
+
         public Repository(ApplicationContext context)
         {
             this.context = context;
@@ -33,6 +37,18 @@ namespace OA.Repository
                 entities.Remove(entity);
                 context.SaveChanges();
             }
+        }
+
+
+        public bool GetUser(string username, string password)
+        {
+            //User user = GetUserByUsername(username);
+            var currentuser = users.FirstOrDefault(s=>s.UserName.ToLower() ==  username.ToLower() && s.Password.ToLower() == password.ToLower());
+            if(currentuser != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public T Get(long? id)
@@ -80,5 +96,26 @@ namespace OA.Repository
             }
             context.SaveChanges();
         }
+
+        public T GetByPredicate(Func<T, bool> func)
+        {
+            return entities.FirstOrDefault(func);
+        }
+
+        //public User GetUserByUsername(string username)
+        //{
+        //    foreach(var us in entities)
+        //    {
+        //        if(us.Id == username)
+        //        {
+        //            user1 = us;
+        //        }
+        //    }
+        //    if (user1 != null)
+        //    {
+        //        return user1;
+        //    }
+        //    return null;
+        //}
     }
 }

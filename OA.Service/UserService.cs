@@ -53,5 +53,14 @@ namespace OA.Service
         {
             userRepository.Update(user);
         }
+
+        public bool CheckUser(string user, string password)
+        {
+            if (userRepository.GetByPredicate(s => s.UserName == user && s.Password == password)!=null);
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

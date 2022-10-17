@@ -9,5 +9,6 @@ namespace OA.Service
         void InsertUser(User user);
         void UpdateUser(User user);
         void DeleteUser(long? id);
+        bool CheckUser(string user, string password);
     }
 }

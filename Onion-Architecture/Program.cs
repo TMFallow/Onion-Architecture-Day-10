@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using OA.Repository;
 using OA.Service;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,14 +11,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("DefaultConnection"), b=>b.MigrationsAssembly("OA.Repository")
+    builder.Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("OA.Repository")
     ));
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(option =>
+            {
+                option.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                };
+            });
+
+builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
-builder.Services.AddTransient<IUserService , UserService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
-builder.Services.AddTransient<IUserInfoService , UserInfoService>();
+builder.Services.AddTransient<IUserInfoService, UserInfoService>();
 
 var app = builder.Build();
 
