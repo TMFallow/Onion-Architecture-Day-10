@@ -35,6 +35,20 @@ namespace OA.Repository
             }
         }
 
+<<<<<<< Updated upstream
+=======
+
+        public bool GetUser(string username, string password)
+        {
+            var currentuser = users.FirstOrDefault(s=>s.UserName.ToLower() ==  username.ToLower() && s.Password.ToLower() == password.ToLower());
+            if(currentuser != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+>>>>>>> Stashed changes
         public T Get(long? id)
         {
             return entities.SingleOrDefault(s => s.Id == id);
@@ -80,5 +94,13 @@ namespace OA.Repository
             }
             context.SaveChanges();
         }
+<<<<<<< Updated upstream
+=======
+
+        public T GetByPredicate(Func<T, bool> func)
+        {
+            return entities.FirstOrDefault(func);
+        }
+>>>>>>> Stashed changes
     }
 }

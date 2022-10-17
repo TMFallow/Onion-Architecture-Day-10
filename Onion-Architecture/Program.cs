@@ -11,6 +11,26 @@ builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServe
     builder.Configuration.GetConnectionString("DefaultConnection"), b=>b.MigrationsAssembly("OA.Repository")
     ));
 
+<<<<<<< Updated upstream
+=======
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(option =>
+        {
+            option.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            };
+        });
+
+builder.Services.AddDistributedMemoryCache();
+
+>>>>>>> Stashed changes
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddTransient<IUserService , UserService>();
