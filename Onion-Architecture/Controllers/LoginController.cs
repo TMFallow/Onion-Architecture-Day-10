@@ -16,13 +16,17 @@ namespace Onion_Architecture.Controllers
     {
         private readonly IUserService userService;
 
-        private IConfiguration configuration;
+        private readonly ITokenService tokenService;
 
-        public LoginController(IUserService userService, IConfiguration configuration)
+        private readonly IConfiguration configuration;
+
+        public LoginController(IUserService userService, IConfiguration configuration, ITokenService tokenService)
         {
             this.userService = userService;
             this.configuration = configuration;
+            this.tokenService = tokenService;
         }
+
         [HttpGet]
         public IActionResult LoginUser()
         {
@@ -31,14 +35,15 @@ namespace Onion_Architecture.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult LoginUser(UserViewModel model)
+        public IActionResult LoginUser( UserViewModel model)
         {
+
             var user = Authenticate(model);
-            if(user != null)
+            if (user != null)
             {
                 var token = Generate(user);
-                //return Ok(token);
-                return RedirectToAction("Index", "User");
+                return Ok(token);
+                //return RedirectToAction("Index", "User");
             }
             return NotFound("User Not Found");
         }
@@ -62,7 +67,7 @@ namespace Onion_Architecture.Controllers
         private UserViewModel? Authenticate(UserViewModel model)
         {
             bool user = userService.CheckUser(model.UserName, model.Password);
-            if(user == true)
+            if (user == true)
             {
                 return model;
             }

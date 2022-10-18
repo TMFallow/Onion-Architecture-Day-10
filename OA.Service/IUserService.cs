@@ -10,5 +10,11 @@ namespace OA.Service
         void UpdateUser(User user);
         void DeleteUser(long? id);
         bool CheckUser(string user, string password);
+
+        User GetUser(string? user, string? password);
+
+        User GetUserByUsername(string? username);
+
+        void SaveChanges();
     }
 }

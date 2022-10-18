@@ -29,5 +29,9 @@ namespace Onion_Architecture.Models
         [Display(Name = "Added Date")]
         public DateTime AddedDate { get; set; }
 
+        public string? RefreshToken { get; set; }
+
+        public DateTime RefreshTokenExpireTime { get; set; }
+
     }
 }
