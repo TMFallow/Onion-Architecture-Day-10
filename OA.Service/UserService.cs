@@ -34,6 +34,11 @@ namespace OA.Service
             userRepository.SaveChanges();
         }
 
+        public void SaveChanges()
+        {
+            userRepository.SaveChanges();
+        }
+
         public User GetUser(long? id)
         {
             return userRepository.Get(id);
@@ -56,7 +61,7 @@ namespace OA.Service
 
         public bool CheckUser(string user, string password)
         {
-            if (userRepository.GetByPredicate(s => s.UserName == user && s.Password == password)!=null);
+            if (userRepository.GetByPredicate(s => s.UserName == user && s.Password == password)!=null)
             {
                 return true;
             }

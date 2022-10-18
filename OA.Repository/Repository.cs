@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace OA.Repository
 {
-    public class Repository<T> : IRepository<T> where T : BaseEntity
+    public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationContext context;
 
@@ -53,7 +53,7 @@ namespace OA.Repository
 
         public T Get(long? id)
         {
-            return entities.SingleOrDefault(s => s.Id == id);
+            return entities.Find(id);
         }
 
         public IEnumerable<T> GetAll()
