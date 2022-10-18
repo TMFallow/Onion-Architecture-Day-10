@@ -37,6 +37,8 @@ builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddTransient<IUserInfoService, UserInfoService>();
 
+builder.Services.AddTransient<ITokenService, TokenService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

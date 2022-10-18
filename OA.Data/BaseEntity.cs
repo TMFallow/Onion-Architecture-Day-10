@@ -15,5 +15,7 @@ namespace OA.Data
         public DateTime AddedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public string IPAddress { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpireTime { get; set; }
     }
 }
