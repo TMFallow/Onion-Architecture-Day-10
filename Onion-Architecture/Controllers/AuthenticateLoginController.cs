@@ -29,16 +29,17 @@ namespace Onion_Architecture.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult LoginUser(UserViewModel model)
+        public IActionResult LoginUser([FromBody] UserViewModel model)
         {
             if (model is null)
             {
                 return BadRequest("Invalid Client Request");
             }
-            var user = userService.CheckUser(model.UserName, model.Password);
-            if (user == false)
+            var user = userService.GetUser(model.UserName, model.Password);
+            if (user is null)
             {
                 return Unauthorized();
+                //return BadRequest("User not found");
             }
 
             var claims = new[]
@@ -50,8 +51,8 @@ namespace Onion_Architecture.Controllers
             var accessToken = tokenService.GenerateAccessToken(claims);
             var refreshToken = tokenService.GenerateRefreshToken();
 
-            model.RefreshToken = refreshToken;
-            model.RefreshTokenExpireTime = DateTime.Now.AddSeconds(10);
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpireTime = DateTime.Now.AddSeconds(20);
 
             userService.SaveChanges();
 

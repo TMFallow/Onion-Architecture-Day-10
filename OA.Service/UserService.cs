@@ -67,5 +67,16 @@ namespace OA.Service
             }
             return false;
         }
+
+        public User GetUserByUsername(string? username)
+        {
+            return userRepository.GetByPredicate(s => s.UserName == username);
+        }
+
+        public User GetUser(string? user, string? password)
+        {
+            return userRepository.GetByPredicate(s => s.UserName == user && s.Password == password);
+
+        }
     }
 }
